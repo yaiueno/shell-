@@ -1,0 +1,5 @@
+スクリプトを 2026-04-17 15:00:42+09:00 に開始 [COMMAND="/bin/tcsh" TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="46" LINES="8"]
+[4meib-pc064[24m:[1m~/shell[0m> cd 2
+[4meib-pc064[24m:[1m~/shell/2[0m> ^Vchmod +x hello.shchmod  +x hello.sh[K[K[K[K[K[K[K[K[K[K[A[46G[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kchmod +x hello.sh
+chmod: 'hello.sh' にアクセスできません: そのようなファイルやディレクトリはありません
+[4meib-pc064[24m:[1m~/shell/2[0m> ^Dexit
