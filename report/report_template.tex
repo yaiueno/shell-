@@ -1,0 +1,566 @@
+\documentclass[12pt,a4paper]{jsarticle}
+\usepackage[dvipdfm]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+
+% ================== ページ設定 ==================
+\geometry{top=30mm,bottom=30mm,left=18mm,right=18mm}
+\pagestyle{plain}
+\setstretch{1.2}
+
+% ================== ユーザー定義コマンド ==================
+% 日付欄の簡単入力: \pracdate{年}{月}{日}
+\newcommand{\pracdate}[3]{#1年~#2月~#3日}
+% または手動入力: \pracdate{2026}{4}{24}
+\newcommand{\TODO}[1]{\textcolor{red}{【TODO: #1】}}
+\newcommand{\NOTE}[1]{\textcolor{blue}{【注: #1】}}
+
+% コード表示設定
+\lstset{
+    language=bash,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    backgroundcolor=\color{white},
+    showstringspaces=false,
+    tabsize=4
+}
+
+\begin{document}
+
+% ==================== ページ1: 表紙 ====================
+\thispagestyle{empty}
+
+\vspace{1.5cm}
+
+% ========== タイトル ==========
+\centering
+{\fontsize{32pt}{40pt}\selectfont\bfseries 情報科学実習I}\par
+\vspace{0.5cm}
+{\fontsize{32pt}{40pt}\selectfont\bfseries シェルスクリプト入門}\par
+\vspace{0.5cm}
+{\fontsize{32pt}{40pt}\selectfont\bfseries レポート}\par
+
+\vspace{2.5cm}
+
+% ========== 日付情報（カスタマイズ用） ==========
+% 以下の行を編集して日付を入力してください
+\raggedright
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{@{\hspace{1.5cm}}l@{\hspace{0.5cm}}l@{\hspace{2cm}}l}
+実習実施日 & 1回目 & \pracdate{2026}{}{} \\[0.2cm]
+& 2回目 & \pracdate{2026}{}{} \\[0.4cm]
+レポート提出日 & & \pracdate{2026}{}{} \\[0.4cm]
+再提出日 & & \pracdate{2026}{}{} \\
+\end{tabular}
+
+\vspace{2.5cm}
+
+% ========== 提出者情報 ==========
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{@{\hspace{1.5cm}}l@{\hspace{0.5cm}}l}
+{\textcolor{red}\bfseries レポート提出者} & \\[0.3cm]
+学生番号 & \underline{\phantom{XXXXXXXXXXXXXXXXXXXX}} \\[0.2cm]
+名前 & \underline{\phantom{XXXXXXXXXXXXXXXXXXXXXXXXXXXX}} \\
+\end{tabular}
+
+% ==================== ページ2以降: 本文 ====================
+\newpage
+
+\section*{1. 実習の目的}
+本実習全体の目的を、自分の言葉で2～4文程度でまとめる。\par
+\vspace{1.2cm}
+
+\noindent
+\underline{\hspace{15cm}}
+\vspace{0.4cm}
+
+\noindent
+\underline{\hspace{15cm}}
+\vspace{0.4cm}
+
+\noindent
+\underline{\hspace{15cm}}
+
+\section*{2. 実習環境}
+使用したOS、シェル、エディタ、参考資料、実行環境などを記入する。必要に応じて、授業スライドやテキストを参照したことも明記する。\par
+\vspace{0.6cm}
+
+\noindent
+\begin{tabular}{|l|l|}
+\hline
+\textbf{項目} & \textbf{詳細} \\
+\hline
+OS & Ubuntu 24.04.3 LTS (Noble Numbat) \\
+\hline
+カーネル & Linux 6.14.0-37-generic \\
+\hline
+アーキテクチャ & x86\_64 \\
+\hline
+CPU & Intel(R) Core(TM) i5-14500T（論理CPU数：20） \\
+\hline
+シェル & tcsh 6.24.10 \\
+\hline
+bash バージョン & GNU bash 5.2.21 \\
+\hline
+ホスト名 & eib-pc064 \\
+\hline
+ロケール & ja\_JP.UTF-8 \\
+\hline
+タイムゾーン & Asia/Tokyo \\
+\hline
+テキスト/スライド & あり（必要に応じてファイル名を記入） \\
+\hline
+\end{tabular}
+
+\vspace{0.6cm}
+
+\noindent
+補足:\quad 
+\underline{\hspace{14cm}}
+
+\vspace{1.5cm}
+
+\section*{3. 実習方法}
+
+本節には、各課題に共通する作業手順のみを簡潔に記載する（個別の操作内容・実行結果・考察は 4章に記載）。\par
+\vspace{0.4cm}
+
+\begin{enumerate}
+    \item テキストおよび配布スライドで課題内容を確認した。
+    \item エディタでシェルスクリプトを作成し、必要に応じて実行権限を付与した。
+    \item 端末からスクリプトを実行し、引数を変えて動作を確認した。
+    \item 実行結果を保存し、結果と考察を各課題欄（4章以降）に整理した。
+\end{enumerate}
+
+\noindent
+※ 重複を避けるため、個別課題の詳細手順は 4章「結果と考察」に統合して記載する。
+
+\newpage
+
+\section*{4. 結果と考察}
+
+各実習について、以下の順で記入する。
+\begin{itemize}
+    \item 目的
+    \item スクリプト（必要ならコードを貼る）
+    \item 実行例
+    \item 結果の説明・考察
+\end{itemize}
+
+% ========== 実習1 ==========
+\subsection*{4.1 実習1}
+
+実習1は指定問題（問題2, 4, 5, 6, 7, 8, 10, 11）ごとに記入する。
+
+\subsubsection*{問題2}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題2のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題4}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題4のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題5}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題5のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題6}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題6のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題7}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題7のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題8}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題8のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題10}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題10のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.6cm}
+
+\subsubsection*{問題11}
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題11のコード
+\end{lstlisting}
+出力例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{1.0cm}
+
+% ========== 実習2 ==========
+\subsection*{4.2 実習2}
+
+\subsubsection*{目的}
+\underline{\hspace{15cm}}
+
+\vspace{0.8cm}
+
+\noindent
+\begin{minipage}[t]{\linewidth}
+\vspace{0.2cm}
+\underline{\hspace{15cm}}\\[0.6cm]
+\underline{\hspace{15cm}}\\[0.6cm]
+\underline{\hspace{15cm}}\\[0.6cm]
+\underline{\hspace{15cm}}\\[0.6cm]
+\underline{\hspace{15cm}}
+\end{minipage}
+
+\subsubsection*{スクリプト}
+\begin{lstlisting}
+#!/bin/bash
+# スクリプトをここに記入
+
+\end{lstlisting}
+
+\subsubsection*{実行例と説明}
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力を記入
+# 例: ./script.sh arg1 arg2
+#     出力...
+\end{lstlisting}
+結果・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\par
+
+\vspace{1.5cm}
+
+% ========== 実習3 ==========
+\subsection*{4.3 実習3}
+
+\subsubsection*{目的}
+\underline{\hspace{15cm}}
+
+\vspace{0.8cm}
+
+\subsubsection*{スクリプト}
+\begin{lstlisting}
+#!/bin/bash
+# スクリプトをここに記入
+
+\end{lstlisting}
+
+\subsubsection*{実行例と説明}
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力を記入
+# 例: ./script.sh arg1 arg2
+#     出力...
+\end{lstlisting}
+結果・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\par
+
+\vspace{1.5cm}
+
+% ========== 実習4 ==========
+\subsection*{4.4 実習4}
+
+実習4は「同じコードを引数だけ変えて実行する」形式なので、コードは1つ、実行例を複数記入する。
+
+\subsubsection*{対象問題（例：実習4の該当番号）}
+問題番号:\quad \underline{\hspace{5cm}}\par
+
+コード:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに実習4のコード（1つ）
+\end{lstlisting}
+
+実行例1（引数パターン1）:\par
+\begin{lstlisting}
+# 例: ./j4.sh 13
+# 出力:
+\end{lstlisting}
+
+実行例2（引数パターン2）:\par
+\begin{lstlisting}
+# 例: ./j4.sh 10
+# 出力:
+\end{lstlisting}
+
+実行例3（引数パターン3）:\par
+\begin{lstlisting}
+# 例: ./j4.sh 2
+# 出力:
+\end{lstlisting}
+
+方法・考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\newpage
+
+\section*{5. 実習操作その2}
+
+実習5、および実習6～9のうち選んだ題材について、同様に「目的」「方法」「スクリプト」「実行例」「考察」を記入する。\par
+\vspace{0.5cm}
+
+\subsection*{5.1 実習5}
+実習5（外部コマンド・リダイレクト・sed/sort など）は複数問題があるため、問題番号ごとに記入する。
+
+\subsubsection*{問題 19}
+目的:\par
+\underline{\hspace{15cm}}
+
+方法:\par
+\underline{\hspace{15cm}}
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+# ここに問題19で試したコマンド
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.7cm}
+
+\subsubsection*{発展 20（任意）}
+目的:\par
+\underline{\hspace{15cm}}
+
+方法:\par
+\underline{\hspace{15cm}}
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+# ここにヒアドキュメント等の内容
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.7cm}
+
+\subsubsection*{問題 21}
+目的:\par
+\underline{\hspace{15cm}}
+
+方法:\par
+\underline{\hspace{15cm}}
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+# ここに問題21で試したコマンド
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.7cm}
+
+\subsubsection*{問題 22}
+目的:\par
+\underline{\hspace{15cm}}
+
+方法:\par
+\underline{\hspace{15cm}}
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+# ここに問題22で試したコマンド
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{0.7cm}
+
+\subsubsection*{問題 23}
+目的:\par
+\underline{\hspace{15cm}}
+
+方法:\par
+\underline{\hspace{15cm}}
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+#!/bin/sh
+# ここに問題23のコード
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}
+
+\vspace{1cm}
+
+\subsection*{5.2 実習6～9（選択分）}
+実習6～9は、実施した問題ごとにこのテンプレート一式をそのまま複製して記入する。
+選んだ実習番号:\quad \underline{\hspace{6cm}}\par
+目的:\quad \underline{\hspace{13cm}}\par
+方法:\quad \underline{\hspace{13cm}}\par
+スクリプト:\par
+\begin{lstlisting}
+#!/bin/bash
+# ここに記入
+\end{lstlisting}
+実行例:\par
+\begin{lstlisting}
+# ここに実行コマンドと出力
+\end{lstlisting}
+考察:\par
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\\[0.4cm]
+\underline{\hspace{15cm}}\par
+
+\newpage
+
+% ==================== 参考文献 ====================
+\section*{参考文献}
+参考にしたテキスト、スライド、Webページなどを記載する。
+
+\begin{thebibliography}{99}
+\bibitem{ref1} 
+
+\bibitem{ref2} 
+
+\end{thebibliography}
+
+\section*{備考}
+本レポートの内容は自分で考えて作成した。LaTeXテンプレートの作成には GitHub Copilot for VS Code を使用した。
+
+\end{document}

@@ -1,0 +1,4 @@
+スクリプトを 2026-04-24 14:07:29+09:00 に開始 [COMMAND="/bin/tcsh" TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="26" LINES="9"]
+[4meib-pc067[24m:[1m~/shell[0m> ./14/14 .sh
+./14/14.sh: 許可がありません.
+[4meib-pc067[24m:[1m~/shell[0m> ^Dexit
