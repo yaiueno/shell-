@@ -1,0 +1,14 @@
+eib-pc064:~/shell> cd 2
+
+eib-pc064:~/shell/2> chmod +x 1.sh
+
+eib-pc064:~/shell/2> chmod +x 2.sh
+
+eib-pc064:~/shell/2> ./1.sh
+
+./1.sh: 2: ABC: not found
+A
+eib-pc064:~/shell/2> ./2.sh
+
+./2.sh: 2: arithmetic expression: expecting primary: " + "
+eib-pc064:~/shell/2>

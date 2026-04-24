@@ -1,0 +1,10 @@
+スクリプトを 2026-04-17 15:06:13+09:00 に開始 [COMMAND="/bin/tcsh" TERM="xterm-256color" TTY="/dev/pts/7" COLUMNS="46" LINES="8"]
+[4meib-pc064[24m:[1m~/shell[0m> cd 2
+[4meib-pc064[24m:[1m~/shell/2[0m> chmod +x 1.sh
+[4meib-pc064[24m:[1m~/shell/2[0m> chmod +x 1.sh.sh[K2.sh
+[4meib-pc064[24m:[1m~/shell/2[0m> ./1.ag[Kh[K[Ksh
+./1.sh: 2: ABC: not found
+A
+[4meib-pc064[24m:[1m~/shell/2[0m> ./1.sh.sh[K2.sh
+./2.sh: 2: arithmetic expression: expecting primary: " + "
+[4meib-pc064[24m:[1m~/shell/2[0m> ^Dexit

@@ -1,0 +1,158 @@
+eib-pc064:~/shell> echo "# shell-" >> README.md
+eib-pc064:~/shell> git init
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git add README.md
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git commit -m "first commit"
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git branch -M main
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git remote add origin https://github.com/yaiueno/shell-.git
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git push -u origin main
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git
+git: コマンドが見つかりません.
+eib-pc064:~/shell> install git
+install: 'git' の後に宛先のファイルオペランドがありません
+詳しくは 'install --help' を実行して下さい。
+eib-pc064:~/shell> echo "# shell-" >> README.md
+eib-pc064:~/shell> git init
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git add README.md
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git commit -m "first commit"
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git branch -M main
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git remote add origin https://github.com/yaiueno/shell-.git
+git: コマンドが見つかりません.
+eib-pc064:~/shell> git push -u origin main
+git: コマンドが見つかりません.
+eib-pc064:~/shell> ./hello.sh
+./hello.sh: 許可がありません.
+eib-pc064:~/shell>  ./hello.sh
+./hello.sh: 許可がありません.
+eib-pc064:~/shell> hello.sh
+hello.sh: コマンドが見つかりません.
+eib-pc064:~/shell> % ./:hello.sh
+%: 引数が多過ぎます.
+eib-pc064:~/shell> % /:hello.sh
+%: 引数が多過ぎます.
+eib-pc064:~/shell> % ./hello.sh
+%: 引数が多過ぎます.
+eib-pc064:~/shell> sudo ./hello.sh
+[sudo] t246270 のパスワード: 
+t246270 は sudoers ファイルにありません。
+この出来事は管理者宛てに報告されました。
+eib-pc064:~/shell> ./hello.sh
+./hello.sh: 許可がありません.
+eib-pc064:~/shell> 
+eib-pc064:~/shell> chmod +x hello.sh
+eib-pc064:~/shell> ./hello.sh
+Hello World.
+eib-pc064:~/shell> ./4.sh
+./4.sh: 許可がありません.
+eib-pc064:~/shell> chmod +x 4.sh
+eib-pc064:~/shell> ./4.sh
+$0 =./4.sh, $1 =, $2 =.
+$# =0, $* =.
+./4.sh: 4: shift: can't shift that many
+eib-pc064:~/shell> ./4.sh a b
+$0 =./4.sh, $1 =a, $2 =b.
+$# =2, $* =a b.
+./4.sh: 5: ecoh: not found
+$# =1, $* =b.
+eib-pc064:~/shell> chmod +x cat.sh
+eib-pc064:~/shell> cat.sh some thing
+cat.sh: コマンドが見つかりません.
+eib-pc064:~/shell> ./t.sh some thing
+./t.sh: コマンドが見つかりません.
+eib-pc064:~/shell> ./cat.sh some thing
+./cat.shsome
+eib-pc064:~/shell> ./cat.sh some thing
+something
+eib-pc064:~/shell> ./cat.sh 1 2
+12
+eib-pc064:~/shell> chmod +x add.sh
+eib-pc064:~/shell> ./add.sh 1 2
+3
+eib-pc064:~/shell> chmod +x sub.sh
+eib-pc064:~/shell> ./sub.sh 1 2
+-1
+eib-pc064:~/shell> chmod +x sub.sh
+eib-pc064:~/shell> chmod +x mul.sh
+eib-pc064:~/shell> ./mul.sh 1 2
+2
+eib-pc064:~/shell> chmod +x div.sh
+eib-pc064:~/shell> ./div.sh 1 2
+0
+eib-pc064:~/shell> ./div.sh 4 2
+2
+eib-pc064:~/shell> chmod +x res.sh
+eib-pc064:~/shell> ./res.sh 4 2
+0
+eib-pc064:~/shell> ./res.sh 4 3
+1
+eib-pc064:~/shell> chmod +x 8.sh
+eib-pc064:~/shell> ./8.sh 4 3
+
+eib-pc064:~/shell> ./8.sh 4 3
+./8.sh
+eib-pc064:~/shell> ./8.sh 4 3
+./8.sh
+eib-pc064:~/shell> ./8.sh 4 3
+3
+eib-pc064:~/shell> ./8.sh 4 3 4 5 65 5
+5
+eib-pc064:~/shell> ./8.sh 4 3 4 5 6 55
+55
+eib-pc064:~/shell> chmod +x calc.sh
+eib-pc064:~/shell> ./calc.sh 6 * 6
+mul.sh: 2: arithmetic expression: expecting EOF: "6 * 8.sh"
+eib-pc064:~/shell> ./calc.sh 6 * 6
+./calc.sh: 5: arithmetic expression: expecting EOF: "6 * 8.sh"
+eib-pc064:~/shell> chmod +x calc.sh
+eib-pc064:~/shell> ./calc.sh 6 * 6
+./calc.sh: 5: arithmetic expression: expecting EOF: "6 * 8.sh"
+eib-pc064:~/shell> ./calc.sh 6 * 6
+eib-pc064:~/shell> ./calc.sh 6 '*' 6
+36
+eib-pc064:~/shell> chmod +x owner.sh
+eib-pc064:~/shell> ./owner.sh owner
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> ./owner.sh owner.sh
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> ./owner.sh owner
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> chmod +x owner.sh
+eib-pc064:~/shell> ls
+4.sh       calc.sh   mondai.txt  sub.sh
+8.sh       cat.sh    mul.sh
+README.md  div.sh    owner.sh
+add.sh     hello.sh  res.sh
+eib-pc064:~/shell> ./owner.sh
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> ./owner.sh owner.sh
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> sh owner.sh owner.sh
+-
+w
+owner.sh: 5: elese: not found
+-
+r
+x
+eib-pc064:~/shell> ./owner.sh owner.sh
+./owner.sh: コマンドが見つかりません.
+eib-pc064:~/shell> sh owner.sh owner.sh
+-
+w
+r
+x
+eib-pc064:~/shell> ./owner.sh owner.sh
+-w
+rxeib-pc064:~/shell> 
+eib-pc064:~/shell> ./owner.sh owner.sh
+-wrxeib-pc064:~/shell> ./owner.sh owner.sh
+-wrx
+eib-pc064:~/shell> 
