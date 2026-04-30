@@ -79,22 +79,10 @@
 \newpage
 
 \section*{1. 実習の目的}
-本実習全体の目的を、自分の言葉で2～4文程度でまとめる。\par
-\vspace{1.2cm}
-
-\noindent
-\underline{\hspace{15cm}}
-\vspace{0.4cm}
-
-\noindent
-\underline{\hspace{15cm}}
-\vspace{0.4cm}
-
-\noindent
-\underline{\hspace{15cm}}
+本実習の目的は、UNIX系OSにおけるシェルの役割を理解し、シェルスクリプトを用いて処理を自動化する基礎を身につけることである。変数、引数、条件分岐、繰り返し、外部コマンド、パイプ、リダイレクトなどを実際に利用し、コマンドを組み合わせて目的の処理を実現する方法を学ぶ。また、作成したスクリプトを端末で実行し、出力やエラーを確認しながら修正することで、シェルスクリプトの実行環境とデバッグ方法を理解する。\par
 
 \section*{2. 実習環境}
-使用したOS、シェル、エディタ、参考資料、実行環境などを記入する。必要に応じて、授業スライドやテキストを参照したことも明記する。\par
+実習およびログ取得に用いた環境を表に示す。\par
 \vspace{0.6cm}
 
 \noindent
@@ -120,15 +108,14 @@ bash バージョン & GNU bash 5.2.21 \\
 \hline
 タイムゾーン & Asia/Tokyo \\
 \hline
-テキスト/スライド & あり（必要に応じてファイル名を記入） \\
+テキスト/スライド & 情報科学実習I シェルスクリプト入門 配布資料 \\
 \hline
 \end{tabular}
 
 \vspace{0.6cm}
 
 \noindent
-補足:\quad 
-\underline{\hspace{14cm}}
+補足:\quad 課題スクリプトは主に \texttt{\#!/bin/sh} で作成し、実行時はPOSIX sh互換の構文を用いた。
 
 \vspace{1.5cm}
 
@@ -163,400 +150,589 @@ bash バージョン & GNU bash 5.2.21 \\
 \subsection*{4.1 実習1}
 
 実習1は指定問題（問題2, 4, 5, 6, 7, 8, 10, 11）ごとに記入する。
+目的:\par
+シェルスクリプトの基本形、変数、引数、算術展開、条件分岐、ファイル属性の判定を確認し、短いスクリプトを作成して実行できるようにする。
 
 \subsubsection*{問題2}
+目的:\par
+シェル変数の代入と参照、単引用符・二重引用符、コマンドライン引数、算術展開の違いを確認する。
+
 コード:\par
 \begin{lstlisting}
 #!/bin/sh
-# ここに問題2のコード
+ABC=A; A=BC
+echo A$ABC
+exit 0
+
+#!/bin/sh
+echo '$1' + '$2' = $(($1 + $2))
+echo "$1" + "$2" = $((1 + 2))
+exit 0
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./1.sh
+AA
+$ ./2.sh 8 12
+$1 + $2 = 20
+8 + 12 = 3
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+シェル変数の代入では、等号の前後に空白を入れない必要がある。単引用符で囲んだ \texttt{\$1} や \texttt{\$2} は展開されず文字列として表示され、二重引用符で囲んだ場合は引数の値に展開される。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題4}
+目的:\par
+引数として与えた数値を判定し、10未満なら1ずつ増やして再度スクリプトを実行し、10以上になった時点で表示する。
+
 コード:\par
 \begin{lstlisting}
 #!/bin/sh
-# ここに問題4のコード
+if test $1 -lt 10 ; then
+    i=$(($1 + 1))
+    $0 $i
+else
+    echo $1
+fi
+exit 0
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./j4.sh 13
+13
+$ ./j4.sh 10
+10
+$ ./j4.sh 2
+10
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{test} で引数が10未満かを判定し、10未満なら引数を1増やして同じスクリプトを再帰的に実行する。10以上になった時点で値を表示して終了する。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題5}
+目的:\par
+2つの引数を受け取り、それらを空白なしで連結して表示する。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題5のコード
+#! /bin/sh
+echo $1$2
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./cat.sh some thing
+something
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+2つの引数を空白なしで続けて表示した。シェルでは \texttt{\$1}, \texttt{\$2} に順にコマンドライン引数が入る。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題6}
+目的:\par
+2つの数値引数を受け取り、算術展開を用いて和を表示する。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題6のコード
+#! /bin/sh
+echo $(($1 + $2))
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./add.sh 8 12
+20
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{\$((...))} を用いることで、引数を数値として扱い加算できる。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題7}
+目的:\par
+加算以外の演算として、減算、乗算、除算、剰余を行うスクリプトを作成する。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題7のコード
+#! /bin/sh
+echo $(($1 - $2))
+
+#! /bin/sh
+echo $(($1 * $2))
+
+#! /bin/sh
+echo $(($1 / $2))
+
+#! /bin/sh
+echo $(($1 % $2))
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./sub.sh 8 3
+5
+$ ./mul.sh 8 3
+24
+$ ./div.sh 8 3
+2
+$ ./res.sh 8 3
+2
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+減算、乗算、除算、剰余も加算と同様に算術展開で実行できる。整数演算であるため、除算の結果は小数ではなく整数になる。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題8}
+目的:\par
+任意個数の引数を受け取り、最後の引数だけを表示する。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題8のコード
+#! /bin/sh
+shift $(($# - 1))
+echo $1
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./8.sh a b c d
+d
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{\$\#} は引数の個数を表す。\texttt{shift} で最後の1個だけが残るように引数をずらすことで、最後の引数を表示できる。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題10}
+目的:\par
+第2引数に演算子を受け取り、第1引数と第3引数に対して対応する四則演算または剰余演算を行う。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題10のコード
+#! /bin/sh
+case "$2" in
+  "+") echo $(($1 + $3)) ;;
+  "-") echo $(($1 - $3)) ;;
+  "*") echo $(($1 * $3)) ;;
+  "/") echo $(($1 / $3)) ;;
+  "%") echo $(($1 % $3)) ;;
+esac
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./calc.sh 8 + 12
+20
+$ ./calc.sh 8 '*' 12
+96
+$ ./calc.sh 8 / 3
+2
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{case} 文で第2引数の演算子を判定し、対応する算術演算を実行した。\texttt{*} はシェルのワイルドカードとして解釈されるため、実行時には引用符で囲む必要がある。
 
 \vspace{0.6cm}
 
 \subsubsection*{問題11}
+目的:\par
+指定されたファイルについて、読み取り、書き込み、実行の各権限があるかを調べ、権限文字列として表示する。
+
 コード:\par
 \begin{lstlisting}
-#!/bin/sh
-# ここに問題11のコード
+#! /bin/sh
+echo -n "-"
+if test -r "$1"; then
+  echo -n "r"
+else
+  echo -n "-"
+fi
+if test -w "$1"; then
+  echo -n "w"
+else
+  echo -n "-"
+fi
+if test -x "$1"; then
+  echo "x"
+else
+  echo "-"
+fi
 \end{lstlisting}
 出力例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./owner.sh foo
+-rw-
+$ ./owner.sh owner.sh
+-rwx
 \end{lstlisting}
 方法・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{test -r}, \texttt{test -w}, \texttt{test -x} を使い、指定したファイルに読み取り、書き込み、実行の権限があるかを調べた。
 
 \vspace{1.0cm}
 
-% ========== 実習2 ==========
 \subsection*{4.2 実習2}
 
-\subsubsection*{目的}
-\underline{\hspace{15cm}}
-
-\vspace{0.8cm}
-
-\noindent
-\begin{minipage}[t]{\linewidth}
-\vspace{0.2cm}
-\underline{\hspace{15cm}}\\[0.6cm]
-\underline{\hspace{15cm}}\\[0.6cm]
-\underline{\hspace{15cm}}\\[0.6cm]
-\underline{\hspace{15cm}}\\[0.6cm]
-\underline{\hspace{15cm}}
-\end{minipage}
+目的:\par
+実習1の問題2で扱ったシェル変数、引用符、引数、算術展開について、実際のコードと実行結果をまとめる。特に、単引用符と二重引用符による変数展開の違い、および \texttt{\$((...))} による整数演算の方法を理解する。
 
 \subsubsection*{スクリプト}
-\begin{lstlisting}
-#!/bin/bash
-# スクリプトをここに記入
-
-\end{lstlisting}
-
-\subsubsection*{実行例と説明}
-実行例:\par
-\begin{lstlisting}
-# ここに実行コマンドと出力を記入
-# 例: ./script.sh arg1 arg2
-#     出力...
-\end{lstlisting}
-結果・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\par
-
-\vspace{1.5cm}
-
-% ========== 実習3 ==========
-\subsection*{4.3 実習3}
-
-\subsubsection*{目的}
-\underline{\hspace{15cm}}
-
-\vspace{0.8cm}
-
-\subsubsection*{スクリプト}
-\begin{lstlisting}
-#!/bin/bash
-# スクリプトをここに記入
-
-\end{lstlisting}
-
-\subsubsection*{実行例と説明}
-実行例:\par
-\begin{lstlisting}
-# ここに実行コマンドと出力を記入
-# 例: ./script.sh arg1 arg2
-#     出力...
-\end{lstlisting}
-結果・考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\par
-
-\vspace{1.5cm}
-
-% ========== 実習4 ==========
-\subsection*{4.4 実習4}
-
-実習4は「同じコードを引数だけ変えて実行する」形式なので、コードは1つ、実行例を複数記入する。
-
-\subsubsection*{対象問題（例：実習4の該当番号）}
-問題番号:\quad \underline{\hspace{5cm}}\par
-
-コード:\par
 \begin{lstlisting}
 #!/bin/sh
-# ここに実習4のコード（1つ）
+ABC=A; A=BC
+echo A$ABC
+exit 0
+
+#!/bin/sh
+echo '$1' + '$2' = $(($1 + $2))
+echo "$1" + "$2" = $((1 + 2))
+exit 0
 \end{lstlisting}
 
-実行例1（引数パターン1）:\par
+\subsubsection*{実行例}
 \begin{lstlisting}
-# 例: ./j4.sh 13
-# 出力:
+$ ./1.sh
+AA
+$ ./2.sh 8 12
+$1 + $2 = 20
+8 + 12 = 3
 \end{lstlisting}
 
-実行例2（引数パターン2）:\par
+\subsubsection*{結果・考察}
+代入文では等号の前後に空白を入れない。\texttt{ABC=A; A=BC} とした場合、\texttt{ABC} には \texttt{A} が入るため、\texttt{echo A\$ABC} の結果は \texttt{AA} になる。また、単引用符内の \texttt{\$1} は展開されず、二重引用符内の \texttt{\$1} は引数の値に展開される。\par
+
+\vspace{1.0cm}
+
+\subsection*{4.3 実習3}
+
+目的:\par
+\texttt{x=abc}, \texttt{y=1+2}, \texttt{z=-2} を設定し、複数の条件式を \texttt{if} 文に入れて、どの条件が真になるかを確認する。\texttt{test} コマンドや \texttt{[ ]} による文字列比較、数値比較、否定、複合条件の書き方を理解する。
+
+\subsubsection*{スクリプト}
 \begin{lstlisting}
-# 例: ./j4.sh 10
-# 出力:
+#!/bin/sh
+x=abc; y=1+2; z=-2
+if (*) ; then
+    echo "true"
+fi
+exit 0
 \end{lstlisting}
 
-実行例3（引数パターン3）:\par
+\subsubsection*{確認した条件式}
 \begin{lstlisting}
-# 例: ./j4.sh 2
-# 出力:
+(1) test x$x = "xabc"
+(2) [ $xx = "abcx" ]
+(3) test $y -eq 3
+(4) test 1+2 = y
+(5) [ test $z = -2 ]
+(6) [ -$z = 2 ]
 \end{lstlisting}
 
-方法・考察:\par
+\subsubsection*{実行例}
+\begin{lstlisting}
+# ここに実行コマンドと出力を記入
+\end{lstlisting}
+
+\subsubsection*{結果・考察}
 \underline{\hspace{15cm}}\\[0.4cm]
 \underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\underline{\hspace{15cm}}\par
+
+\vspace{1.0cm}
+
+\subsection*{4.4 実習4}
+
+目的:\par
+\texttt{j4.sh} を作成し、引数が10未満の場合は1を加えて再実行し、10以上の場合はその値を表示する処理を実装する。\texttt{if} 文と再帰的なスクリプト実行を用いて、引数の値によって処理を繰り返す方法を理解する。
+
+\subsubsection*{スクリプト}
+\begin{lstlisting}
+#!/bin/sh
+if test $1 -lt 10 ; then
+    i=$(($1 + 1))
+    $0 $i
+else
+    echo $1
+fi
+exit 0
+\end{lstlisting}
+
+\subsubsection*{実行例}
+\begin{lstlisting}
+$ ./j4.sh 13
+13
+$ ./j4.sh 10
+10
+$ ./j4.sh 2
+10
+\end{lstlisting}
+
+\subsubsection*{結果・考察}
+引数が10未満の場合は、\texttt{i} に1を加えた値を入れて同じスクリプトを再実行する。引数が10以上の場合はその値を表示するため、\texttt{2} から実行した場合は最終的に \texttt{10} が表示される。
+
+\vspace{1.0cm}
 
 \newpage
 
-\section*{5. 実習操作その2}
-
-実習5、および実習6～9のうち選んだ題材について、同様に「目的」「方法」「スクリプト」「実行例」「考察」を記入する。\par
+本節では、実習操作その2として、繰り返し処理、引数処理、外部コマンドを用いた課題について記載する。\par
 \vspace{0.5cm}
 
-\subsection*{5.1 実習5}
-実習5（外部コマンド・リダイレクト・sed/sort など）は複数問題があるため、問題番号ごとに記入する。
+\subsection*{4.5 実習5}
+実習5では、繰り返し、\texttt{shift}、\texttt{sort}、\texttt{sed}、\texttt{awk} などを使い、複数の引数処理やテキスト処理を行った。
 
-\subsubsection*{問題 19}
+\subsubsection*{問題 12}
 目的:\par
-\underline{\hspace{15cm}}
-
-方法:\par
-\underline{\hspace{15cm}}
+\texttt{for} 文とワイルドカードを用いて、指定したパターンに一致するファイルを数える。
 
 スクリプト/コマンド:\par
 \begin{lstlisting}
-# ここに問題19で試したコマンド
-\end{lstlisting}
-
-実行例:\par
-\begin{lstlisting}
-# ここに実行コマンドと出力
+#!/bin/sh
+i=0
+for x in ./p*
+do
+    i=$((i+1))
+done
+echo $i
 \end{lstlisting}
 
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{for x in ./p*} により、カレントディレクトリ内で名前が \texttt{p} から始まるファイルを順に処理できる。\texttt{i} を初期化してから1ずつ増やすことで件数を数えられる。
 
 \vspace{0.7cm}
 
-\subsubsection*{発展 20（任意）}
+\subsubsection*{問題 13}
 目的:\par
-\underline{\hspace{15cm}}
-
-方法:\par
-\underline{\hspace{15cm}}
+\texttt{while} 文を用いて、0から9までを順に加算し、途中経過を表示する。
 
 スクリプト/コマンド:\par
 \begin{lstlisting}
-# ここにヒアドキュメント等の内容
+#!/bin/sh
+sum=0
+j=0
+while [ $j -lt 10 ]
+do
+    sum=$(( sum + j ))
+    j=$(( j + 1 ))
+    echo $sum
+done
+exit
 \end{lstlisting}
 
 実行例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./13/13.sh
+0
+1
+3
+6
+10
+15
+21
+28
+36
+45
 \end{lstlisting}
 
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{j} を0から9まで増やしながら、各回で \texttt{sum} に加算している。最後に表示される45は、0から9までの和である。
+
+\vspace{0.7cm}
+
+\subsubsection*{問題 16}
+目的:\par
+\texttt{shift} を使って任意個数の引数を順に処理し、すべて連結して表示する。
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+#!/bin/sh
+i=0
+j=$#
+while [ $i -lt $j ]
+do
+    echo -n $1
+    shift 1
+    i=$((i + 1))
+done
+echo
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+$ ./16/16.sh a b c d e
+abcde
+$ ./16/16.sh 1 2 4
+124
+\end{lstlisting}
+
+考察:\par
+\texttt{\$\#} で引数の個数を取得し、\texttt{shift} で先頭引数を順に取り出した。引数の個数分だけ繰り返すことで、すべての引数を連結して表示できた。
+
+\vspace{0.7cm}
+
+\subsubsection*{問題 17}
+目的:\par
+\texttt{shift} と算術展開を使い、任意個数の数値引数の合計を求める。
+
+スクリプト/コマンド:\par
+\begin{lstlisting}
+#!/bin/sh
+i=0
+j=$#
+sum=0
+while [ $i -lt $j ]
+do
+    sum=$(($sum + $1))
+    shift 1
+    i=$((i + 1))
+done
+echo $sum
+\end{lstlisting}
+
+実行例:\par
+\begin{lstlisting}
+$ ./17/17.sh 1 2 4
+7
+\end{lstlisting}
+
+考察:\par
+各引数を数値として \texttt{sum} に加算した。引数 \texttt{1}, \texttt{2}, \texttt{4} の合計が \texttt{7} になっており、処理は正しく行われている。
 
 \vspace{0.7cm}
 
 \subsubsection*{問題 21}
 目的:\par
-\underline{\hspace{15cm}}
+\texttt{/etc/group} を対象に、グループIDを基準として数値の降順に並べ替える。
 
 方法:\par
-\underline{\hspace{15cm}}
+\texttt{sort} の区切り文字、数値比較、キー指定、逆順のオプションを組み合わせた。
 
 スクリプト/コマンド:\par
 \begin{lstlisting}
-# ここに問題21で試したコマンド
+sort -r -t : -n -k 3 /etc/group
 \end{lstlisting}
 
 実行例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ sort -r -t : -n -k 3 /etc/group
+nogroup:x:65534:
+setup:x:1000:
+systemd-journal:x:999:
+systemd-network:x:998:
+...
+root:x:0:
 \end{lstlisting}
 
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{-t :} で区切り文字をコロンにし、\texttt{-k 3} で第3フィールドを指定した。\texttt{-n} により文字列ではなく数値として比較し、\texttt{-r} により降順で表示できた。
 
 \vspace{0.7cm}
 
 \subsubsection*{問題 22}
 目的:\par
-\underline{\hspace{15cm}}
+\texttt{sed} の正規表現と後方参照を使い、文字列の一部を取り出したり置換したりする。
 
 方法:\par
-\underline{\hspace{15cm}}
+\texttt{echo} で用意した文字列を \texttt{sed} に渡し、パターンに一致する部分を取り出したり置換したりした。
 
 スクリプト/コマンド:\par
 \begin{lstlisting}
-# ここに問題22で試したコマンド
+echo "<html><body>" | sed 's/<\([^>]*\)>.*/\1/'
+echo "int main (void)" | sed 's:(\([a-z]*\)):\1:'
+echo "int main (void)" | sed 's:.*(\([a-z]*\)):\1:'
+echo "/tmp/mytest.sh.tgz" | sed 's:[^.]*\(\..*\):\1:'
+echo "/tmp/mytest.sh.tgz" | sed 's=[/.]=-=g'
 \end{lstlisting}
 
 実行例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ echo "<html><body>" | sed 's/<\([^>]*\)>.*/\1/'
+html
+$ echo "int main (void)" | sed 's:(\([a-z]*\)):\1:'
+int main void
+$ echo "int main (void)" | sed 's:.*(\([a-z]*\)):\1:'
+void
+$ echo "/tmp/mytest.sh.tgz" | sed 's:[^.]*\(\..*\):\1:'
+.sh.tgz
+$ echo "/tmp/mytest.sh.tgz" | sed 's=[/.]=-=g'
+-tmp-mytest-sh-tgz
 \end{lstlisting}
 
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{\(\)} で囲んだ部分は \texttt{\textbackslash 1} により再利用できる。\texttt{!} を区切り文字にした場合は、対話シェルが履歴展開として解釈してエラーになることがあったため、ここでは \texttt{:} を区切り文字として用いた。
 
 \vspace{0.7cm}
 
 \subsubsection*{問題 23}
 目的:\par
-\underline{\hspace{15cm}}
+複数の \texttt{bar*.tex} ファイルに含まれる誤記 \texttt{bgein} を \texttt{begin} に一括置換する。
 
 方法:\par
-\underline{\hspace{15cm}}
+\texttt{for} 文で対象ファイルを順に処理し、\texttt{sed} の結果を一時ファイルに出力してから元のファイルへ戻す。
 
 スクリプト/コマンド:\par
 \begin{lstlisting}
 #!/bin/sh
-# ここに問題23のコード
+for x in ./bar*
+do
+    sed 's=bgein=begin=g' "$x" > tmp.tex
+    mv tmp.tex "$x"
+done
+echo "finish"
 \end{lstlisting}
 
 実行例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./23/23.sh
+finish
 \end{lstlisting}
 
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}
+\texttt{sed} の結果を直接同じファイルへ書き戻すことはできないため、一時ファイルを経由して置換結果を保存した。実際に確認するには、対象となる \texttt{bar*.tex} を用意してから実行する必要がある。
 
 \vspace{1cm}
 
-\subsection*{5.2 実習6～9（選択分）}
-実習6～9は、実施した問題ごとにこのテンプレート一式をそのまま複製して記入する。
-選んだ実習番号:\quad \underline{\hspace{6cm}}\par
-目的:\quad \underline{\hspace{13cm}}\par
-方法:\quad \underline{\hspace{13cm}}\par
+\subsection*{4.6 実習6}
+
+目的:\par
+正の整数の入力 \texttt{n} に対し、\texttt{n} 以下の正の奇数の和を求めるシェルスクリプト \texttt{j6.sh} を作成する。\texttt{while} 文と算術展開を用いて、条件を満たす数値だけを順に加算する方法を確認する。
+
+方法:\par
+\texttt{i} を1から始め、\texttt{i} が入力値以下である間、\texttt{sum} に \texttt{i} を加える。その後 \texttt{i} を2増やすことで、正の奇数だけを順に処理する。
+
 スクリプト:\par
 \begin{lstlisting}
-#!/bin/bash
-# ここに記入
+#!/bin/sh
+i=1
+sum=0
+
+while [ $i -le $1 ]
+do
+    sum=$((sum + i))
+    i=$((i + 2))
+done
+
+echo $sum
+exit 0
 \end{lstlisting}
+
 実行例:\par
 \begin{lstlisting}
-# ここに実行コマンドと出力
+$ ./j6.sh 5
+9
+$ ./j6.sh 10
+25
 \end{lstlisting}
+
 考察:\par
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\par
+\texttt{i} を2ずつ増やすことで、1, 3, 5, ... の正の奇数だけを取り出せる。入力値が偶数の場合は、その値を超えない最大の奇数までが加算対象になる。\par
+
+\vspace{1cm}
 
 \newpage
 
 % ==================== 参考文献 ====================
 \section*{参考文献}
-参考にしたテキスト、スライド、Webページなどを記載する。
 
 \begin{thebibliography}{99}
-\bibitem{ref1} 
-
-\bibitem{ref2} 
+\bibitem{shelltext} 情報科学実習I シェルスクリプト入門 配布資料.
+\bibitem{man} Ubuntu manual pages, \texttt{sh}, \texttt{test}, \texttt{sort}, \texttt{sed}, \texttt{awk}.
 
 \end{thebibliography}
 
