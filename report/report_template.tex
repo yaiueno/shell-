@@ -71,8 +71,8 @@
 \setlength{\tabcolsep}{0pt}
 \begin{tabular}{@{\hspace{1.5cm}}l@{\hspace{0.5cm}}l}
 {\textcolor{red}\bfseries レポート提出者} & \\[0.3cm]
-学生番号 & \underline{\phantom{XXXXXXXXXXXXXXXXXXXX}} \\[0.2cm]
-名前 & \underline{\phantom{XXXXXXXXXXXXXXXXXXXXXXXXXXXX}} \\
+学生番号 & \underline{\phantom{24516270}} \\[0.2cm]
+名前 & \underline{\phantom{上野 能登}} \\
 \end{tabular}
 
 % ==================== ページ2以降: 本文 ====================
@@ -427,13 +427,18 @@ exit 0
 
 \subsubsection*{実行例}
 \begin{lstlisting}
-# ここに実行コマンドと出力を記入
+(1) 真
+(2) 偽
+(3) エラー（1+2 は数値として扱えない）
+(4) 偽
+(5) エラー（[ test ... ] は不正な条件式）
+(6) 偽
 \end{lstlisting}
 
 \subsubsection*{結果・考察}
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\\[0.4cm]
-\underline{\hspace{15cm}}\par
+\texttt{test} や \texttt{[ ]} では、文字列比較は真偽が判定できる一方で、数値比較に文字列を渡すとエラーになる。また、\texttt{[ test ... ]} のように条件式を重ねて書くと構文として不正になり、正しく評価されないことが分かった。\par
+
+\texttt{x=abc} のときは \texttt{x\$x} が \texttt{xabc} となるため (1) は真になった。\texttt{y=1+2} は整数ではないので (3) は数値比較に失敗し、\texttt{z=-2} を使った条件でも書き方が不適切なものはエラーまたは偽になる。条件式は、変数展開後の形まで含めて正しく記述する必要がある。\par
 
 \vspace{1.0cm}
 
@@ -725,11 +730,27 @@ $ ./j6.sh 10
 
 \vspace{1cm}
 
+\section*{全体の考察}
+
+シェルスクリプトは、PythonやJavaなどの汎用プログラミング言語と比較して、
+実行環境への依存度が低い。インタプリタのインストールやランタイムの準備が
+不要であり、POSIX準拠のシェルさえあればほぼどのUNIX系OSでも動作する。
+この特性から、OSのセットアップ直後・システム復旧時・組み込み環境など、
+高水準な言語処理系が利用できない低次元な場面での自動化処理に適している。
+
+一方で、複雑なデータ構造の操作や数値演算、可読性の高いコードが求められる
+場合には、PythonやC言語などの汎用言語の方が適切である。
+
+したがって、シェルスクリプトはファイル操作・プロセス管理・環境設定など
+OSに密接した処理に用い、ロジックが複雑になる場合は他言語と組み合わせる
+という使い分けが実用上は効果的である。
+
+
+\vspace{1cm}
+
 \newpage
 
 % ==================== 参考文献 ====================
-\section*{参考文献}
-
 \begin{thebibliography}{99}
 \bibitem{shelltext} 情報科学実習I シェルスクリプト入門 配布資料.
 \bibitem{man} Ubuntu manual pages, \texttt{sh}, \texttt{test}, \texttt{sort}, \texttt{sed}, \texttt{awk}.
